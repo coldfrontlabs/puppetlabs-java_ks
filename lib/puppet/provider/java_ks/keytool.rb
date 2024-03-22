@@ -97,6 +97,12 @@ Puppet::Type.type(:java_ks).provide(:keytool) do
     cmd += ['-destkeypass', @resource[:destkeypass]] unless @resource[:destkeypass].nil?
     cmd += ['-deststoretype', storetype] unless storetype.nil?
 
+    if @resource[:source_password]
+      cmd.push(
+        '-storepass', sourcepassword
+      )
+    end
+
     pwfile = password_file
     run_command(cmd, @resource[:target], pwfile)
     tmppk12.close!
